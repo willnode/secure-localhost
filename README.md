@@ -1,6 +1,6 @@
 # secure-localhost 🔒
 
-Proxy your specified localhost port to 443, with automatic HTTPS certificate installation.
+Proxy your specified localhost port to HTTPS, with automatic certificate installation.
 
 ## Why?
 
@@ -10,13 +10,13 @@ Proxy your specified localhost port to 443, with automatic HTTPS certificate ins
 
 ## Start
 
-Redirect port 80 to 443 with HTTPS:
+Forward port 443 (HTTPS default port) to 80 with HTTPS:
 
 ```
 $ npx secure-localhost
 ```
 
-Redirect port 8000 to 443 with HTTPS:
+Forward port 443 to 8000 (pass it to args) with HTTPS:
 
 ```
 $ npx secure-localhost 8000
@@ -28,4 +28,4 @@ $ npx secure-localhost 8000
 
 ## Caveat
 + Only support Windows for first installation (UNIX users: help us!)
-+ Requires `openssh` to be installed
++ Requires `openssh` to be installed/available on CLI
