@@ -10,6 +10,8 @@ Proxy your specified localhost port to HTTPS, with automatic certificate install
 
 ## Start
 
+Using `npx` from Node.JS allows you to [run NPM binaries](https://docs.npmjs.com/cli/v7/commands/npx) without having them installed first.
+
 Forward port 443 (HTTPS default port) to 80 with HTTPS:
 
 ```
