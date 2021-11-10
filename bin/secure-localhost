@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+var argv = require('minimist')(process.argv.slice(2));
+
+require('../src/index')(argv.target || 'http://localhost:' +  (argv._.length > 0 ? argv._[0] : 80), argv.port || 443);

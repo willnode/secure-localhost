@@ -1,0 +1,19 @@
+{
+  "name": "secure-localhost",
+  "bin": {
+    "secure-localhost": "./bin/secure-localhost"
+  },
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./bin/secure-localhost",
+    "start": "node ./bin/secure-localhost"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-proxy": "^1.18.1",
+    "minimist": "^0.0.10"
+  }
+}
