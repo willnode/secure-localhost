@@ -1,35 +1,34 @@
 var fs = require('fs');
-var path = require('path');
+const spawn_util = require('./spawn_util');
 
-module.exports = function (key, cert) {
-    return new Promise(function (resolve, reject) {
-        if ((fs.existsSync(key) && fs.existsSync(cert))) {
-            var spawn = require('child_process').spawn;
-            let child;
+module.exports = async function (key, cert) {
+    if ((fs.existsSync(key) && fs.existsSync(cert))) {
+        try {
             switch (process.platform) {
                 case 'win32':
-                    child = spawn('certutil', ['-addstore', '-user', 'root', cert]);
+                    await spawn_util('certutil', ['-addstore', '-user', 'root', cert]);
+                    break;
                 case 'darwin':
-                    child = spawn('security', ['add-trusted-cert', '-d', '-r', 'trustRoot', '-k', '/Library/Keychains/System.keychain', cert]);
+                    try {
+                        if (!(await spawn_util('security', ['verify-cert', '-p', 'ssl', '-n', 'localhost', '-r', cert])).includes('not verified')) throw new Error();
+                    } catch (error) {
+                        if (process.getuid() === 0) {
+                            await spawn_util('security', ['add-trusted-cert', '-r', 'trustRoot', '-p', 'ssl', '-p', 'basic', '-s', 'localhost', '-k', '/Library/Keychains/System.keychain', cert]);
+                        } else {
+                            throw new Error('Certificate is not verified. Please run this command as root (for once).');
+                        }
+                    }
+                    break;
                 case 'linux':
-                    child = spawn('certutil', ['certutil', '-A', '-d', 'sql:~/.pki/nssdb', '-t', 'C', '-n', 'Certificate Common Name', '-i', cert]);
+                    await spawn_util('certutil', ['certutil', '-A', '-d', 'sql:~/.pki/nssdb', '-t', 'C', '-n', 'Certificate Common Name', '-i', cert]);
+                    break;
             }
-            child.stdout.on('data', function (data) {
-                // process.stdout.write(data);
-            });
-            child.stderr.on('data', function (data) {
-                //  process.stderr.write(data);
-            });
-            child.on('close', function (code) {
-                if (code === 0) {
-                    resolve('SSL approved');
-                } else {
-                    reject(new Error('Failed to add certificate to trusted store'));
-                }
-                resolve();
-            });
-        } else {
-            resolve();
+            return ('SSL approved');
+        } catch (code) {
+            if (code instanceof Error) {
+                throw code;
+            }
+            throw (new Error('Failed to add certificate to trusted store with code ' + code));
         }
-    });
+    }
 };

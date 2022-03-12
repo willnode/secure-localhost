@@ -8,13 +8,18 @@ module.exports = async function (target, port) {
     const dir = path.join(require('os').homedir(), '.certs');
     const key = path.join(dir, 'secure-localhost-server.key');
     const cert = path.join(dir, 'secure-localhost-server.crt');
-
+    console.log(key, cert);
     fs.mkdirSync(dir, {
         recursive: true
     });
-
-    console.log(await create(key, cert));
-    console.log(await approve(key, cert));
+    try {
+        console.log(await create(key, cert));
+        console.log(await approve(key, cert));
+    } catch (error) {
+        console.error(error); 
+        console.error('Execution has failed'); 
+        return;
+    }
     var p = httpProxy.createServer({
         target: target,
         ssl: {
@@ -32,5 +37,4 @@ module.exports = async function (target, port) {
         console.error(err);
     })
     console.log('Proxing to "%s" through "https://localhost:%s"', target, port);
-
 };

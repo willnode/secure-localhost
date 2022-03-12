@@ -3,9 +3,9 @@
   "bin": {
     "secure-localhost": "./bin/secure-localhost"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "node ./bin/secure-localhost",
     "start": "node ./bin/secure-localhost"
