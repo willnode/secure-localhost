@@ -36,5 +36,5 @@ module.exports = async function (target, port) {
     p.on('error', function (err) {
         console.error(err);
     })
-    console.log('Proxing to "%s" through "https://localhost:%s"', target, port);
+    console.log('Proxying to "%s" through "https://localhost:%s"', target, port);
 };

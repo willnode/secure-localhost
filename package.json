@@ -3,7 +3,7 @@
   "bin": {
     "secure-localhost": "./bin/secure-localhost"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -14,6 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "http-proxy": "^1.18.1",
-    "minimist": "^0.0.10"
+    "minimist": "^1.2.8"
   }
 }

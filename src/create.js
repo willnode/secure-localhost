@@ -19,11 +19,11 @@ module.exports = async function (key, cert) {
                     await spawn_util('openssl', [
                         'req', '-x509', '-newkey', 'rsa:4096', '-sha256', '-days', '365', '-nodes',
                         '-keyout', key, '-out', cert, '-subj', '/CN=localhost', '-reqexts', 'SAN', '-extensions', 'SAN', '-config',
-                        __dirname + '/openssl.cnf'
+                        __dirname + '/localhost.cnf'
                     ]);
                     break;
             }
-            resolve('SSL certs created');
+            return 'SSL certs created';
         } catch (code) {
             if (code instanceof Error) {
                 throw code;
@@ -31,6 +31,6 @@ module.exports = async function (key, cert) {
             throw 'SSL certs creation failed with code ' + code;
         }
     } else {
-        resolve('SSL certs already exist');
+        return 'SSL certs already exist';
     }
 };
