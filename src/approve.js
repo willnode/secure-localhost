@@ -2,7 +2,7 @@ var fs = require('fs');
 const spawn_util = require('./spawn_util');
 
 module.exports = async function (key, cert) {
-    if ((fs.existsSync(key) && fs.existsSync(cert))) {
+    if (fs.existsSync(key) && fs.existsSync(cert)) {
         try {
             switch (process.platform) {
                 case 'win32':
@@ -23,12 +23,12 @@ module.exports = async function (key, cert) {
                     await spawn_util('certutil', ['certutil', '-A', '-d', 'sql:~/.pki/nssdb', '-t', 'C', '-n', 'Certificate Common Name', '-i', cert]);
                     break;
             }
-            return ('SSL approved');
+            return 'SSL approved';
         } catch (code) {
             if (code instanceof Error) {
                 throw code;
             }
-            throw (new Error('Failed to add certificate to trusted store with code ' + code));
+            throw new Error('Failed to add certificate to trusted store with code ' + code);
         }
     }
 };

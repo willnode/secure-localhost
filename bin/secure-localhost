@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var argv = require('minimist')(process.argv.slice(2));
-var fs = require('fs');
+const argv = require('minimist')(process.argv.slice(2));
+const fs = require('fs');
 
 if (argv.help) {
     let file = fs.readFileSync(__dirname + '/../package.json');
@@ -11,4 +11,7 @@ if (argv.help) {
     return;
 }
 
-require('../src/index')(argv.target || 'http://localhost:' +  (argv._.length > 0 ? argv._[0] : 80), argv.port || 443);
+const host = argv.target || 'http://localhost';
+const port = argv._.length > 0 ? argv._[0] : 80;
+
+require('../src/index')(host + ':' + port, argv.port || 443, argv);

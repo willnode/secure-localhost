@@ -14,13 +14,13 @@ Using `npx` from Node.JS allows you to [run NPM binaries](https://docs.npmjs.com
 
 Forward port 443 (HTTPS default port) to 80 with HTTPS:
 
-```
+```bash
 $ npx secure-localhost
 ```
 
 Forward port 443 to 8000 (pass it to args) with HTTPS:
 
-```
+```bash
 $ npx secure-localhost 8000
 ```
 
