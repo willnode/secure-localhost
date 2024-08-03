@@ -24,10 +24,14 @@ Forward port 443 to 8000 (pass it to args) with HTTPS:
 $ npx secure-localhost 8000
 ```
 
-> In Windows, for the first launch, you'll asked for a prompt to install the HTTPS certificate.
+More options run `npx secure-localhost --help`
+
+> For the first launch, you'll asked to install the HTTPS certificate. For windows it will be a dialog prompt. For unix, a sudo password will be asked.
 
 > The certificate is saved to `~/.certs/secure-localhost-server.crt` and `~/.certs/secure-localhost-server.key`
 
 ## Caveat
-+ Only support Windows for first installation (UNIX users: help us!)
+
++ Only tested in Windows and Linux for now (Mac users: help us!)
++ If ran without sudo in Unix, it uses port 8443 instead of 433
 + Requires `openssh` to be installed/available on CLI

@@ -7,11 +7,35 @@ if (argv.help) {
     let file = fs.readFileSync(__dirname + '/../package.json');
     let package = JSON.parse(file);
     console.log('secure-localhost v' + package.version);
-    console.log('Usage: secure-localhost [port number]');
+    console.log(`Proxy your specified localhost port to HTTPS, with automatic certificate installation.
+
+Usage: secure-localhost [options] [port number]
+
+Available options:
+  --target=[...]        Target host (default localhost)
+  --hostname=[...]      Proxy host (default localhost)
+  --port=[...]          Proxy host (default 443 or 8443)
+  --[no-]autoRewrite    Enable autoRewrite (default yes)
+  --[no-]changeOrigin   Enable changeOrigin (default no)
+  --[no-]hostRewrite    Enable hostRewrite (default yes)
+  --[no-]ws             Enable ws (default yes)
+  --[no-]xfwd           Enable xfwd (default yes)`);
     return;
 }
 
-const host = argv.target || 'http://localhost';
+const target = argv.target || 'localhost';
 const port = argv._.length > 0 ? argv._[0] : 80;
+const defaultPort = (() => {
+    switch (process.platform) {
+        case 'win32':
+            return 443; // works without sudo
+        default:
+            if (process.getuid() == 0) {
+                return 443;
+            } else {
+                return 8443;
+            }
+    }
+})()
 
-require('../src/index')(host + ':' + port, argv.port || 443, argv);
+require('../src/index')('http://' + target + ':' + port, argv.hostname || undefined, argv.port || defaultPort, argv);
